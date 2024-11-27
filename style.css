@@ -1,5 +1,7 @@
 body {
   background-color: #292524;
+  color: #fafaf9;
+  font-family: "Sono", sans-serif;
 }
 
 h1 {
@@ -9,10 +11,14 @@ h1 {
   font-family: "Coiny", sans-serif;
 }
 
+.fact-form {
+  background-color: #44403c;
+}
+
 .fact {
   font-size: 20px;
   line-height: 1.4;
-  font-family: "Sono", sans-serif;
+  background-color: #44403c;
 }
 
 .tag {
