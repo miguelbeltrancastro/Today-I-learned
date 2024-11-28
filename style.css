@@ -98,6 +98,10 @@ ul {
   color: #3b82f6;
 }
 
+.btn:hover{
+  transform: scale(110%) rotate(-2deg);
+}
+
 .btn {
   font-family: "Coiny", sans-serif;
   line-height: 1;
@@ -107,4 +111,24 @@ ul {
   background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
   border: none;
   color: inherit;
+  transition: 0.3s;
+}
+
+.btn-large{
+  font-size: 20px;
+  padding: 20px 32px 17px;
+}
+
+.btn-all-categories{
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.btn-category{
+  width: 100%;
+  background-image: none;
+}
+
+.category{
+  margin-bottom: 16px;
 }
