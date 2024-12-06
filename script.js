@@ -1,38 +1,3 @@
-// Initial facts
-const initialFacts = [
-  {
-    id: 1,
-    text: "React is being developed by Meta (formerly facebook)",
-    source: "https://opensource.fb.com/",
-    category: "technology",
-    votesInteresting: 24,
-    votesMindblowing: 9,
-    votesFalse: 4,
-    createdIn: 2021,
-  },
-  {
-    id: 2,
-    text: "Millennial dads spend 3 times as much time with their kids than their fathers spent with them. In 1982, 43% of fathers had never changed a diaper. Today, that number is down to 3%",
-    source:
-      "https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids",
-    category: "society",
-    votesInteresting: 11,
-    votesMindblowing: 2,
-    votesFalse: 0,
-    createdIn: 2019,
-  },
-  {
-    id: 3,
-    text: "Lisbon is the capital of Portugal",
-    source: "https://en.wikipedia.org/wiki/Lisbon",
-    category: "society",
-    votesInteresting: 8,
-    votesMindblowing: 3,
-    votesFalse: 1,
-    createdIn: 2015,
-  },
-];
-
 // Categories
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -42,7 +7,7 @@ const CATEGORIES = [
   { name: "entertainment", color: "#db2777" },
   { name: "health", color: "#14b8a6" },
   { name: "history", color: "#f97316" },
-  { name: "news", color: "#8b5cf6" },
+  { name: "news", color: "#8b5cf6" }
 ];
 
 // Variables
@@ -55,29 +20,52 @@ let votesMindblowing = 0;
 let totalUpvotes = 0;
 let votesWrong = 0;
 
-
 // Create DOM elements: Render facts in list
 factsList.innerHTML = "";
 
+// Load data from Supabase
+async function loadFacts() {
+  const res = await fetch(
+    "https://ecnhnvoxfzdkfaadninf.supabase.co/rest/v1/facts",
+    {
+      headers: {
+        apiKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjbmhudm94Znpka2ZhYWRuaW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI4NzE4NzQsImV4cCI6MjA0ODQ0Nzg3NH0.u4Q_kqDS9Uh6tOdGY58B00hRGIJP_jTD80DlqfK13fM",
+        authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjbmhudm94Znpka2ZhYWRuaW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI4NzE4NzQsImV4cCI6MjA0ODQ0Nzg3NH0.u4Q_kqDS9Uh6tOdGY58B00hRGIJP_jTD80DlqfK13fM"
+      }
+    }
+  );
+  const data = await res.json();
+  const filteredData = data.filter(fact => fact.category === "society");
+  createFactsList(data);
+}
 
-const htmlArr = initialFacts.map((fact)=>`<li class="fact">
-              <p>
-              ${fact.text}
-                <a
-                  class="source"
-                  href="${fact.source}"
-                  target="_blank"
-                  >(Source)</a
-                >
-              </p>
-              <span class="tag" style="background-color: #3b82f6"
-                >${fact.category}</span
-              >
-            </li>`);
-const html = htmlArr.join("")
+loadFacts();
 
-factsList.insertAdjacentHTML("afterbegin", html)
+function createFactsList(dataArray) {
+  const htmlArr = dataArray.map(
+    fact => `<li class="fact">
+  <p>
+  ${fact.text}
+    <a
+      class="source"
+      href="${fact.source}"
+      target="_blank"
+      >(Source)</a
+    >
+  </p>
+  <span class="tag" style="background-color: ${
+    CATEGORIES.find(cat => cat.name === fact.category).color
+  }"
+    >${fact.category}</span
+  >
+</li>`
+  );
+  const html = htmlArr.join("");
 
+  factsList.insertAdjacentHTML("afterbegin", html);
+}
 
 // Show and Hide form
 btn.addEventListener("click", function() {
