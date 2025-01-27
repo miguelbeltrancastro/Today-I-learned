@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import "./style.css"
 
-function App() {
+function App(){
+  const appTitle = "Today I Learned";
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <>
+  {/* HEADER */}
+  <header class="header">
+  <div className="logo">
+    <img
+      src="logo.png"
+      heght="68"
+      width="68"
+      alt="Today I learned logo"
+    />
+    <h1>{appTitle}</h1>
+  </div>
+  <button className="btn btn-large btn-open">Share a fact</button>
+</header>
+<NewFactForm />
+<main className="main">
+  <CategoryFilter />
+  <FactList />
+</main>
+</>
+);
 }
 
-export default App;
+function NewFactForm(){
+  return <form className="fact-form">NewFactForm</form>;
+}
+
+function CategoryFilter(){
+  return <aside>CategoryFilter</aside>;
+}
+
+function FactList(){
+  return <section>FactList</section>;
+}
+
+export default App
