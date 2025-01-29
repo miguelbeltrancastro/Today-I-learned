@@ -37,27 +37,26 @@ const initialFacts = [
 function App(){
   const appTitle = "Today I Learned";
   return (
-  <>
-  {/* HEADER */}
-  <header class="header">
-  <div className="logo">
-    <img
-      src="logo.png"
-      heght="68"
-      width="68"
-      alt="Today I learned logo"
-    />
-    <h1>{appTitle}</h1>
-  </div>
-  <button className="btn btn-large btn-open">Share a fact</button>
-</header>
-<NewFactForm />
-<main className="main">
-  <CategoryFilter />
-  <FactList />
-</main>
-</>
-);
+    <>
+      <header class="header">
+        <div className="logo">
+          <img
+            src="logo.png"
+            heght="68"
+            width="68"
+            alt="Today I learned logo"
+          />
+          <h1>{appTitle}</h1>
+        </div>
+        <button className="btn btn-large btn-open">Share a fact</button>
+      </header>
+      <NewFactForm />
+      <main className="main">
+        <CategoryFilter />
+        <FactList />
+      </main>
+    </>
+  );
 }
 
 function NewFactForm(){
@@ -76,54 +75,58 @@ const CATEGORIES = [
 ];
 
 function CategoryFilter(){
-  return <aside><ul>
-    <li><button className="btn btn-all-categories">All</button></li>  
-    {CATEGORIES.map((cat) =>     (<li key={cat.name} className="category">
-              <button
-                className="btn btn-category"
-                style={{backgroundColor: cat.color}}>
-                {cat.name}
-              </button>
-            </li>))}
-
-    </ul></aside>;
+  return (
+    <aside>
+      <ul>
+        <li><button className="btn btn-all-categories">All</button></li>  
+          {CATEGORIES.map((cat) =>     (<li key={cat.name} className="category">
+            <button
+              className="btn btn-category"
+              style={{backgroundColor: cat.color}}>
+              {cat.name}
+            </button>
+        </li>))}
+      </ul>
+    </aside>
+  );
 }
 
 function FactList(){
   // TEMPORARY for fake data
   const fact = initialFacts;
 
-  return <section><ul className="facts-list">
-    {
-      fact.map((fact)=> <Fact key={fact.id} fact={fact}/>
-
-    )}
-    </ul>
-    Ther are {fact.length} facts in the database. Add your own!
-    </section>;
+  return (
+    <section>
+      <ul className="facts-list">
+        {fact.map((fact)=> <Fact key={fact.id} fact={fact}/>)}
+      </ul>
+      Ther are {fact.length} facts in the database. Add your own!
+    </section>
+  );
 }
 
 function Fact({fact}){
   return(
-  <li className="fact">
-  <p>
-    {fact.text}
-    <a
-      className="source"
-      href={fact.source}
-      target="_blank"
-      >(Source)</a
-    >
-  </p>
-  <span className="tag" style={{backgroundColor: CATEGORIES.find(cat => cat.name === fact.category).color}}
-    >{fact.category}</span
-  >
-  <div className="vote-buttons">
-    <button>👍 {fact.votesInteresting}</button>
-    <button>🤯 {fact.votesMindblowing}</button>
-    <button>⛔ {fact.votesFalse}</button>
-  </div>
-  </li>)
+    <li className="fact">
+      <p>
+        {fact.text}
+        <a
+          className="source"
+          href={fact.source}
+          target="_blank"
+          >(Source)</a
+        >
+      </p>
+      <span className="tag" style={{backgroundColor: CATEGORIES.find(cat => cat.name === fact.category).color}}>
+        {fact.category}
+      </span>
+      <div className="vote-buttons">
+        <button>👍 {fact.votesInteresting}</button>
+        <button>🤯 {fact.votesMindblowing}</button>
+        <button>⛔ {fact.votesFalse}</button>
+      </div>
+    </li>
+  );
 }
 
 export default App
