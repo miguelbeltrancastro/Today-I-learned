@@ -1,16 +1,5 @@
 import "./style.css"
 
-const CATEGORIES = [
-  { name: "technology", color: "#3b82f6" },
-  { name: "science", color: "#16a34a" },
-  { name: "finance", color: "#ef4444" },
-  { name: "society", color: "#eab308" },
-  { name: "entertainment", color: "#db2777" },
-  { name: "health", color: "#14b8a6" },
-  { name: "history", color: "#f97316" },
-  { name: "news", color: "#8b5cf6" },
-];
-
 const initialFacts = [
   {
     id: 1,
@@ -75,8 +64,29 @@ function NewFactForm(){
   return <form className="fact-form">NewFactForm</form>;
 }
 
+const CATEGORIES = [
+  { name: "technology", color: "#3b82f6" },
+  { name: "science", color: "#16a34a" },
+  { name: "finance", color: "#ef4444" },
+  { name: "society", color: "#eab308" },
+  { name: "entertainment", color: "#db2777" },
+  { name: "health", color: "#14b8a6" },
+  { name: "history", color: "#f97316" },
+  { name: "news", color: "#8b5cf6" },
+];
+
 function CategoryFilter(){
-  return <aside>CategoryFilter</aside>;
+  return <aside><ul>
+    <li><button className="btn btn-all-categories">All</button></li>  
+    {CATEGORIES.map((cat) =>     (<li key={cat.name} className="category">
+              <button
+                className="btn btn-category"
+                style={{backgroundColor: cat.color}}>
+                {cat.name}
+              </button>
+            </li>))}
+
+    </ul></aside>;
 }
 
 function FactList(){
@@ -89,7 +99,7 @@ function FactList(){
 
     )}
     </ul>
-    Ther are {fact.length} facts
+    Ther are {fact.length} facts in the database. Add your own!
     </section>;
 }
 
