@@ -43,7 +43,7 @@ function App(){
       {showForm ? <NewFactForm setFacts = {setFacts} setShowForm ={setShowForm}/> : null}
       <main className="main">
         <CategoryFilter setCurrentCategory = {setCurrentCategory}/>
-        {isLoading ? <Loader/> : <FactList facts={facts}/>}
+        {isLoading ? <Loader/> : <FactList facts={facts} setFacts={setFacts}/>}
       </main>
     </>
   );
@@ -114,7 +114,7 @@ function NewFactForm({setFacts, setShowForm}){
       setIsUploading(false)
 
       //4. add new fact to the UI
-        setFacts((facts)=>[newFact[0], ...facts])
+      if (!error) setFacts((facts)=>[newFact[0], ...facts])
       //5. reset input fields
       setText("");
       setSource("");
@@ -158,20 +158,31 @@ function CategoryFilter({setCurrentCategory}){
   );
 }
 
-function FactList({facts}){
+function FactList({facts, setFacts}){
   if (facts.length === 0)
     return <p className="message">No facts for this category yet! Create the first one</p>
   return (
     <section>
       <ul className="facts-list">
-        {facts.map((fact)=> <Fact key={fact.id} fact={fact}/>)}
+        {facts.map((fact)=> <Fact key={fact.id} fact={fact} setFacts={setFacts}/>)}
       </ul>
       Ther are {facts.length} facts in the database. Add your own!
     </section>
   );
 }
 
-function Fact({fact}){
+function Fact({fact, setFacts}){
+  const [isUpdating,setIsUpdating] = useState(false);
+  async function handleVote(){
+    setIsUpdating(true);
+    const {data: updatedFact, error } = await supabase
+    .from('facts')
+    .update({ votesInteresting: fact.votesInteresting + 1})
+    .eq("id", fact.id).select();
+    setIsUpdating(false)
+    if (!error) setFacts((facts)=>facts.map((f)=>f.id === fact.id ? updatedFact[0] : f))
+  }
+
   return(
     <li className="fact">
       <p>
@@ -187,7 +198,7 @@ function Fact({fact}){
         {fact.category}
       </span>
       <div className="vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
+        <button onClick={handleVote} disabled = {isUpdating}>👍 {fact.votesInteresting}</button>
         <button>🤯 {fact.votesMindblowing}</button>
         <button>⛔ {fact.votesFalse}</button>
       </div>
