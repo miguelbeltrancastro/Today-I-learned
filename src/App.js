@@ -87,7 +87,7 @@ function isValidHttpUrl(string) {
 function NewFactForm({setFacts, setShowForm}){
   const [text, setText] = useState("");
   const textLentght = text.length;
-  const [source, setSource] = useState("http://example.com");
+  const [source, setSource] = useState("");
   const [category, setCategory] = useState("  ");
   const [isUploading, setIsUploading]= useState(false);
 
@@ -173,6 +173,7 @@ function FactList({facts, setFacts}){
 
 function Fact({fact, setFacts}){
   const [isUpdating,setIsUpdating] = useState(false);
+  const isDiputed = fact.votesInteresting + fact.votesMindblowing < fact.votesWrong;
   
   async function handleVote(columnName){
     setIsUpdating(true);
@@ -187,6 +188,8 @@ function Fact({fact, setFacts}){
   return(
     <li className="fact">
       <p>
+        {isDiputed ? <span className="disputed">
+          [DISPUTED] </span> : null}
         {fact.text}
         <a
           className="source"
@@ -201,7 +204,7 @@ function Fact({fact, setFacts}){
       <div className="vote-buttons">
         <button onClick={()=>handleVote("votesInteresting")} disabled = {isUpdating}>👍 {fact.votesInteresting}</button>
         <button onClick={()=>handleVote("votesMindblowing")} disabled = {isUpdating}>🤯 {fact.votesMindblowing}</button>
-        <button onClick={()=>handleVote("votesFalse")} disabled = {isUpdating}>⛔ {fact.votesFalse}</button>
+        <button onClick={()=>handleVote("votesWrong")} disabled = {isUpdating}>⛔ {fact.votesWrong}</button>
       </div>
     </li>
   );
